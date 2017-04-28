@@ -252,7 +252,9 @@ class ClientResolver
                 if (isset($a['default'])) {
                     // Merge defaults in when not present.
                     $args[$key] = is_callable($a['default'])
-                    && !is_string($a['default'])
+                    && (in_array('callable', $a['valid'])
+                        || $a['type'] == 'config'
+                        || is_object($a['default']))
                         ? $a['default']($args)
                         : $a['default'];
                 } elseif (empty($a['required'])) {
